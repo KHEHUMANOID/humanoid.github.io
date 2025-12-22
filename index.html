@@ -1,17 +1,1124 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>KHE Humanoid</title>
+  <meta charset="UTF-8" />
+  <title>KHE – Korea Humanoid Engineering</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="KHE(Korea Humanoid Engineering)는 휴머노이드 로봇 POC, 공정 자동화, AI 기반 솔루션을 제공하는 엔지니어링 전문 그룹입니다.">
+
   <style>
-    body { font-family: Arial; margin: 50px; background: #f5f5f5; }
-    h1 { font-size: 48px; }
-    p { font-size: 20px; }
+    :root {
+      --primary: #00a878; /* 포인트 그린 */
+      --primary-dark: #008060;
+      --bg: #040714;
+      --bg-light: #0b1020;
+      --text: #f7f7f7;
+      --muted: #a0a4b8;
+      --border: #222638;
+      --accent: #1e88ff;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.45);
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --radius-pill: 999px;
+      --transition-fast: all 0.18s ease-out;
+      --max-width: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #111830 0, #02030a 45%, #000000 100%);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Layout */
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(4,7,20,0.96), rgba(4,7,20,0.8), transparent);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .nav {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 40% 70% 55% 80%;
+      background: radial-gradient(circle at 30% 20%, #4dffe0 0, #00a878 40%, #00664d 100%);
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: #02140e;
+    }
+
+    .logo-text-main {
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+    }
+
+    .logo-text-sub {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .nav-links a {
+      padding: 6px 0;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      border-bottom-color: var(--primary);
+    }
+
+    .nav-cta {
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(0,168,120,0.6);
+      color: #d5fff0;
+      font-size: 13px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 0 0 1px rgba(0,168,120,0.12);
+    }
+
+    .nav-cta span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #47ffb5;
+      box-shadow: 0 0 8px rgba(71,255,181,0.9);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    section {
+      padding: 48px 18px;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* Hero */
+
+    .hero {
+      padding-top: 56px;
+      padding-bottom: 64px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 5px 10px 5px 5px;
+      font-size: 11px;
+      color: var(--muted);
+      background: radial-gradient(circle at left, rgba(0,255,170,0.15), rgba(255,255,255,0.01));
+      margin-bottom: 18px;
+    }
+
+    .pill-badge {
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      background: rgba(0,168,120,0.25);
+      color: #d5fff0;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .hero-title {
+      font-size: clamp(32px, 4vw, 40px);
+      line-height: 1.22;
+      font-weight: 750;
+      margin-bottom: 16px;
+    }
+
+    .hero-title span.highlight {
+      background: linear-gradient(120deg, #4dffe0, #00ffa0, #a2ff77);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+
+    .hero-subtitle strong {
+      color: #e7f8ff;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .btn-primary {
+      padding: 11px 22px;
+      border-radius: var(--radius-pill);
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--primary), #53ffb4);
+      color: #02140f;
+      box-shadow: var(--shadow-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-ghost {
+      padding: 10px 18px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(7,11,25,0.7);
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: var(--text);
+      background: rgba(10,15,32,0.95);
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .hero-meta-item span.value {
+      display: block;
+      font-weight: 600;
+      color: #f4f4f4;
+      font-size: 13px;
+    }
+
+    .hero-card {
+      background: radial-gradient(circle at top left, rgba(77,255,224,0.18), rgba(6,12,32,0.95));
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .hero-card-title {
+      font-size: 16px;
+      font-weight: 650;
+      margin-bottom: 6px;
+    }
+
+    .hero-card-text {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+
+    .hero-robot {
+      margin: 10px 0 16px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: radial-gradient(circle at 10% 0, rgba(120,255,214,0.2), transparent 55%),
+                  radial-gradient(circle at 80% 100%, rgba(59,130,246,0.35), transparent 60%);
+      padding: 18px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-robot-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: radial-gradient(circle at 30% 20%, #ffffff, #b3e6ff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      color: #0f172a;
+      box-shadow: 0 14px 28px rgba(15,23,42,0.7);
+    }
+
+    .hero-robot-text-main {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .hero-robot-text-sub {
+      font-size: 12px;
+      color: #dbeafe;
+    }
+
+    .hero-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(10,15,32,0.9);
+      color: var(--muted);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Section titles */
+
+    .section-header {
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .section-kicker {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 650;
+    }
+
+    .section-description {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* Services */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: rgba(7,10,26,0.95);
+      border-radius: var(--radius-lg);
+      padding: 16px 16px 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-list {
+      list-style: none;
+      padding-left: 0;
+      margin-top: 4px;
+      color: var(--muted);
+    }
+
+    .card-list li {
+      position: relative;
+      padding-left: 14px;
+      margin-bottom: 3px;
+    }
+
+    .card-list li::before {
+      content: "•";
+      position: absolute;
+      left: 2px;
+      top: 0;
+      color: var(--primary);
+      font-size: 11px;
+    }
+
+    /* Tech section */
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .tech-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .tech-badge {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(148,163,184,0.55);
+      color: #e5e7eb;
+      background: radial-gradient(circle at top left, rgba(148,163,184,0.18), rgba(15,23,42,0.9));
+    }
+
+    .tech-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .tech-panel {
+      border-radius: var(--radius-xl);
+      background: radial-gradient(circle at 20% 0, rgba(77,255,224,0.18), transparent 55%),
+                  radial-gradient(circle at 100% 80%, rgba(96,165,250,0.32), transparent 60%),
+                  rgba(5,9,25,0.96);
+      border: 1px solid rgba(148,163,184,0.4);
+      padding: 16px 16px 18px;
+      font-size: 12px;
+      color: #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .tech-panel-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .badge-soft {
+      padding: 4px 8px;
+      border-radius: var(--radius-pill);
+      border: 1px solid rgba(56,189,248,0.6);
+      background: rgba(15,23,42,0.9);
+      font-size: 11px;
+      color: #e0f2fe;
+    }
+
+    /* Cases */
+
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .case-card {
+      background: rgba(7,10,26,0.95);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .case-tag {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #9ca3af;
+    }
+
+    .case-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .case-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .case-meta span {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* Contact */
+
+    .contact {
+      padding-bottom: 60px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: 20px;
+    }
+
+    .contact-panel {
+      background: rgba(7,10,26,0.95);
+      border-radius: var(--radius-xl);
+      padding: 18px 18px 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .contact-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .contact-value {
+      font-size: 14px;
+    }
+
+    .contact-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .contact-form {
+      background: rgba(6,10,24,0.95);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      border: 1px dashed rgba(148,163,184,0.45);
+      font-size: 12px;
+    }
+
+    .contact-form p {
+      margin-bottom: 8px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .field-group {
+      margin-bottom: 8px;
+    }
+
+    .field-label {
+      font-size: 11px;
+      margin-bottom: 2px;
+      color: #e5e7eb;
+    }
+
+    .field {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(148,163,184,0.6);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      padding: 7px 9px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+    }
+
+    textarea.field {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .field-hint {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .footer {
+      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 16px 18px 24px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Responsive */
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .tech-grid,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-card {
+        order: -1;
+      }
+      .cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .nav-links {
+        display: none;
+      }
+      .hero {
+        padding-top: 34px;
+      }
+      .hero-grid {
+        gap: 28px;
+      }
+      .cards {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .case-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      section {
+        padding: 40px 16px;
+      }
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <h1>KHE Humanoid</h1>
-  <p>Next-generation humanoid robotics development.</p>
-  <p>Website is under preparation for upcoming official launch.</p>
+  <div class="page">
+    <!-- Header -->
+    <header>
+      <div class="nav">
+        <div class="logo-wrap">
+          <div class="logo-mark">K</div>
+          <div>
+            <div class="logo-text-main">KHE</div>
+            <div class="logo-text-sub">Korea Humanoid Engineering</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a onclick="scrollToId('about')">About</a>
+          <a onclick="scrollToId('services')">Services</a>
+          <a onclick="scrollToId('tech')">Technology</a>
+          <a onclick="scrollToId('cases')">POC 사례</a>
+          <a onclick="scrollToId('contact')">Contact</a>
+          <button class="nav-cta" onclick="scrollToId('contact')">
+            <span class="dot"></span> POC 상담 요청
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero" id="top">
+        <div class="container hero-grid">
+          <div>
+            <div class="pill">
+              <span class="pill-badge">Humanoid POC</span>
+              산업 현장에 바로 적용 가능한 실전형 엔지니어링
+            </div>
+
+            <h1 class="hero-title">
+              현장에서 바로 검증되는<br />
+              <span class="highlight">휴머노이드 엔지니어링 파트너</span>
+            </h1>
+
+            <p class="hero-subtitle">
+              KHE(Korea Humanoid Engineering)는
+              <strong>휴머노이드 로봇 POC, 공정 자동화, 비전 기반 제어</strong>를 중심으로
+              실제 산업 환경에 적용 가능한 솔루션을 설계·구현합니다.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn-primary" onclick="scrollToId('contact')">
+                POC 상담 요청하기
+                <span>→</span>
+              </button>
+              <button class="btn-ghost" onclick="scrollToId('services')">
+                제공 서비스 보기
+              </button>
+            </div>
+
+            <div class="hero-meta">
+              <div class="hero-meta-item">
+                <span class="value">20+ 년</span>
+                제조·자동차 부품 엔지니어링 경험
+              </div>
+              <div class="hero-meta-item">
+                <span class="value">POC 중심</span>
+                작은 파일럿으로 빠른 검증
+              </div>
+              <div class="hero-meta-item">
+                <span class="value">AI · Vision</span>
+                비전카메라 + 강화학습 기반 제어
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="hero-card">
+              <div class="hero-card-tag">Humanoid &amp; Automation</div>
+              <div class="hero-card-title">KHE Humanoid POC Studio</div>
+              <p class="hero-card-text">
+                “처음부터 거대한 투자가 아니라,
+                <strong>작은 POC로 공정과 사람 모두가 편해지는 지점을 찾는 것</strong>이
+                KHE의 방식입니다.”
+              </p>
+
+              <div class="hero-robot">
+                <div class="hero-robot-avatar">🤖</div>
+                <div>
+                  <div class="hero-robot-text-main">
+                    휴머노이드 + 공정 + AI, 한 번에 고민해드립니다.
+                  </div>
+                  <div class="hero-robot-text-sub">
+                    작업자 동선, 안전, 설비 구조까지 함께 보는
+                    엔지니어링 관점의 POC 설계.
+                  </div>
+                </div>
+              </div>
+
+              <div class="hero-chip-row">
+                <span class="chip">산업용 휴머노이드 POC</span>
+                <span class="chip">공정 자동화 컨설팅</span>
+                <span class="chip">Vision &amp; RL 기반 동작 설계</span>
+                <span class="chip">로봇 안전·운용 전략</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">About KHE</div>
+            <div class="section-title">Korea Humanoid Engineering</div>
+            <p class="section-description">
+              KHE는 제조·자동차 부품 산업에서의
+              <strong>20년 이상 현장 경험</strong>을 바탕으로,
+              휴머노이드 로봇을 실제 공정에 어떻게 녹여낼지 고민하는
+              엔지니어링 그룹입니다.  
+              “보여주기용 데모”가 아니라
+              <strong>실제 작업자와 설비를 바꾸는 POC</strong>를 지향합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section id="services">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Services</div>
+            <div class="section-title">KHE가 함께할 수 있는 일</div>
+            <p class="section-description">
+              공정 분석부터 POC 설계·실행, 향후 양산 단계까지
+              단계적으로 동행합니다.  
+              현재 단계와 리소스에 맞는 범위를 함께 정의해드립니다.
+            </p>
+          </div>
+
+          <div class="cards">
+            <div class="card">
+              <div class="card-label">01 · 공정·업무 분석</div>
+              <div class="card-title">휴머노이드 적용 가능 구간 진단</div>
+              <ul class="card-list">
+                <li>현재 작업 공정 · 동선 분석</li>
+                <li>휴머노이드 투입 시 장·단점 정리</li>
+                <li>안전 · 피로도 · 효율 관점에서 우선순위 선정</li>
+                <li>POC 후보 시나리오 2~3개 제안</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-label">02 · POC 설계·구현</div>
+              <div class="card-title">Humanoid POC Engineering</div>
+              <ul class="card-list">
+                <li>로봇 동작 플로우 정의 (Task Breakdown)</li>
+                <li>Vision 센서·카메라 기반 인식 로직 설계</li>
+                <li>강화학습/시뮬레이션 활용한 동작 튜닝</li>
+                <li>파일럿 테스트 및 개선 리포트 제공</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <div class="card-label">03 · 확장·운영 전략</div>
+              <div class="card-title">From POC to Operation</div>
+              <ul class="card-list">
+                <li>양산/운영 단계 확대 시 고려사항 정리</li>
+                <li>작업자 교육·협업 방식 제안</li>
+                <li>장비·투자 관점의 단계별 로드맵 설계</li>
+                <li>타 공정 확장 시 재사용 가능한 구조 제안</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Technology -->
+      <section id="tech">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Technology Focus</div>
+            <div class="section-title">Vision · RL · Humanoid Control</div>
+            <p class="section-description">
+              현재는 현장에 적용 가능한 수준의
+              <strong>Vision 기반 제어와 강화학습(RL)·시뮬레이션</strong>에 집중하고,
+              이후 단계에서 VLM/VLA 등 고도화된 AI를 점진적으로 도입하는 로드맵을 제안합니다.
+            </p>
+          </div>
+
+          <div class="tech-grid">
+            <div>
+              <div class="tech-badges">
+                <span class="tech-badge">Vision Camera 기반 인식 · 제어</span>
+                <span class="tech-badge">강화학습(RL) · 시뮬레이션</span>
+                <span class="tech-badge">산업용 휴머노이드 모션 설계</span>
+                <span class="tech-badge">안전·피로도 고려 동작 최적화</span>
+              </div>
+
+              <p class="tech-note">
+                비전 카메라에서 받은 데이터를 기반으로,
+                <strong>환경 인식 → 행동 선택 → 보상 피드백</strong>의 RL 구조를 활용하여
+                휴머노이드의 동작을 점진적으로 개선합니다.  
+                현재 가능한 기술을 최대한 활용해 공정을 구성하고,
+                VLM/VLA는 다음 단계에서 자연스럽게 이어갈 수 있도록 구조를 설계합니다.
+              </p>
+            </div>
+
+            <div class="tech-panel">
+              <div class="tech-panel-row">
+                <span>현재 단계의 초점</span>
+                <span class="badge-soft">실행 가능한 수준의 AI · 제어</span>
+              </div>
+              <div>
+                <strong>1) Vision → Action Loop</strong><br />
+                비전 카메라로부터 들어오는 영상을 바탕으로,
+                부품 위치·자세 인식 &amp; 작업 가능 여부를 판단하고,
+                사전에 정의한 동작 세트 중 최적의 행동을 선택합니다.
+              </div>
+              <div>
+                <strong>2) 강화학습(RL) 활용</strong><br />
+                시뮬레이션 환경에서
+                <em>“실수해도 괜찮은 공간”</em>을 만들어
+                반복 학습을 시키고,  
+                현장에서는 검증된 정책만 가져와 적용합니다.
+              </div>
+              <div>
+                <strong>3) 단계적 로드맵</strong><br />
+                <ul class="card-list">
+                  <li>Phase 1 : Vision + Rule 기반 POC</li>
+                  <li>Phase 2 : RL/시뮬레이션으로 동작 최적화</li>
+                  <li>Phase 3 : VLM/VLA 등 고도화 AI 연계</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cases -->
+      <section id="cases">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">POC Examples</div>
+            <div class="section-title">적용을 상상해볼 수 있는 POC 시나리오</div>
+            <p class="section-description">
+              아래 사례들은 이해를 돕기 위한 예시입니다.
+              실제 POC 설계 시에는 고객사의 공정·설비·인력 구성을 먼저 검토한 뒤,
+              가장 효과적인 시나리오를 함께 도출합니다.
+            </p>
+          </div>
+
+          <div class="case-grid">
+            <div class="case-card">
+              <div class="case-tag">Case 01 · 조립 공정 보조</div>
+              <div class="case-title">중량 부품 핸들링 + 작업자 피로도 감소</div>
+              <p>
+                휴머노이드가 중량 부품을 픽업·위치 고정하고,
+                작업자는 정밀 조립만 수행하도록 역할을 분리합니다.
+                Vision으로 정렬 상태를 확인하고,
+                RL로 손·팔 동작을 튜닝해 안정성을 확보합니다.
+              </p>
+              <div class="case-meta">
+                <span>목표: 피로도 감소 · 품질 안정</span>
+                <span>형태: 3~6개월 POC</span>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-tag">Case 02 · 검사/테스트 공정</div>
+              <div class="case-title">반복 검사 · 버튼 조작 자동화</div>
+              <p>
+                반복적인 버튼 조작, 스위치 On/Off, 간단한 시각 검사 등을
+                휴머노이드가 담당하고,
+                이상 발생 시에만 작업자에게 알림을 주는 구조로 설계합니다.
+              </p>
+              <div class="case-meta">
+                <span>목표: 반복 작업 자동화</span>
+                <span>형태: 소규모 파일럿</span>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-tag">Case 03 · 교육·데모 라인</div>
+              <div class="case-title">사내 교육용 휴머노이드 데모 공정</div>
+              <p>
+                실제 생산 라인에 투입하기 전,
+                사내 기술·영업·경영진 대상
+                “휴머노이드가 하는 일”을 보여주는 교육용 데모 라인을 구성합니다.
+              </p>
+              <div class="case-meta">
+                <span>목표: 내부 이해·공감 형성</span>
+              </div>
+            </div>
+
+            <div class="case-card">
+              <div class="case-tag">Case 04 · 맞춤형 POC</div>
+              <div class="case-title">귀사 공정에 최적화된 시나리오 설계</div>
+              <p>
+                현재 고민하시는 공정·업무를 공유해주시면,
+                휴머노이드가 <em>정말 도움이 될 수 있는 지점</em>과
+                아니라면 굳이 하지 않아도 되는 지점을 솔직하게 나눠드립니다.
+              </p>
+              <div class="case-meta">
+                <span>목표: 현실적인 ROI 확보</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="contact">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-kicker">Contact</div>
+            <div class="section-title">POC 상담 · 협업 문의</div>
+            <p class="section-description">
+              간단히 공정 상황과 현재 고민을 적어 보내주시면,
+              <strong>엔지니어 관점에서 가능성과 한계를 함께 정리</strong>해드립니다.  
+              부담 없이 “아이디어 레벨”부터 상담 가능합니다.
+            </p>
+          </div>
+
+          <div class="contact-grid">
+            <div class="contact-panel">
+              <div class="contact-row">
+                <div class="contact-label">Company</div>
+                <div class="contact-value">KHE · Korea Humanoid Engineering</div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-label">E-mail</div>
+                <div class="contact-value">contact@khe-humanoid.com</div>
+              </div>
+              <div class="contact-row">
+                <div class="contact-label">Location</div>
+                <div class="contact-value">Republic of Korea · Ulsan 기반 (Remote 협업 가능)</div>
+              </div>
+              <p class="contact-note">
+                <strong>1차 상담</strong>은 온라인 미팅 또는 이메일로 진행합니다.  
+                공정 도면·사진·영상이 있으시면 더 정확한 논의가 가능합니다.
+              </p>
+
+              <button class="btn-primary" onclick="scrollToId('contact-form')">
+                상담 내용 정리해서 보내기
+              </button>
+            </div>
+
+            <div class="contact-form" id="contact-form">
+              <p>
+                실제 메일/양식 시스템이 연결되기 전까지는,
+                아래 항목을 복사해서 이메일로 보내주시면 됩니다.
+              </p>
+
+              <div class="field-group">
+                <div class="field-label">1. 회사명 / 담당자 성함</div>
+                <textarea class="field" placeholder="예) ○○테크 / 생산기술팀 ○○○"></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label">2. 공정/업무 설명</div>
+                <textarea class="field" placeholder="어떤 공정(라인)인지, 현재 작업 방식, 주요 문제점을 적어주세요."></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label">3. 휴머노이드 적용을 고민하시는 이유</div>
+                <textarea class="field" placeholder="예) 작업자 피로도, 야간 근무, 안전, 홍보용 데모 등"></textarea>
+              </div>
+
+              <div class="field-group">
+                <div class="field-label">4. 희망하시는 일정 / 예산 범위 (선택)</div>
+                <textarea class="field" placeholder="대략적인 일정, 내부 검토 단계 등을 적어주시면 논의에 도움이 됩니다."></textarea>
+              </div>
+
+              <p class="field-hint">
+                ※ 위 내용은 예시이며, 실제 사이트 오픈 시에는 메일 전송 폼 또는 문의 접수 시스템으로 연결하시면 됩니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>© <span id="year"></span> KHE · Korea Humanoid Engineering. All rights reserved.</div>
+        <div>Powered by KHE · Humanoid POC Studio</div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    function scrollToId(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      window.scrollTo({
+        top: el.offsetTop - 70,
+        behavior: "smooth"
+      });
+    }
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
