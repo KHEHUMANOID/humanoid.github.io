@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KHE Humanoid | Humanoid robotics for manufacturing deployment</title>
+  <meta name="description" content="KHE builds vision-driven humanoid robotics for manufacturing—task understanding, adaptive motion control, simulation-first validation, and shop-floor integration from PoC to deployment." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://test.khehumanoid.com/" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="KHE Humanoid" />
+  <meta property="og:description" content="Vision-driven task understanding and adaptive motion control for real factories. PoC to deployment." />
+  <meta property="og:url" content="https://test.khehumanoid.com/" />
+  <meta property="og:image" content="assets/og.jpg" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="KHE Humanoid" />
+  <meta name="twitter:description" content="Humanoid robotics for manufacturing deployment. PoC to production rollout." />
+  <meta name="twitter:image" content="assets/og.jpg" />
+
+  <link rel="icon" href="assets/favicon.ico" />
+
+  <style>
+    :root{
+      --bg:#0b0f17;
+      --panel:#0f1624;
+      --muted:#9fb0c6;
+      --text:#e7eef9;
+      --line:rgba(231,238,249,.12);
+      --accent:#7CFFB2; /* 필요 시 브랜드 컬러로 조정 */
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius: 18px;
+      --max: 1120px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      background:
+        radial-gradient(1200px 600px at 15% -10%, rgba(124,255,178,.14), transparent 55%),
+        radial-gradient(1000px 560px at 95% 5%, rgba(120,160,255,.10), transparent 52%),
+        radial-gradient(900px 520px at 60% 120%, rgba(255,160,120,.08), transparent 52%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      background: rgba(11,15,23,.70);
+      border-bottom:1px solid var(--line);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+    }
+    .logo{
+      width:34px; height:34px; border-radius:10px;
+      background: linear-gradient(145deg, rgba(124,255,178,.35), rgba(124,255,178,.10));
+      border:1px solid rgba(124,255,178,.35);
+      box-shadow: 0 10px 24px rgba(124,255,178,.10);
+    }
+    .menu{display:flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+    .menu a{color:var(--muted); font-size:14px}
+    .menu a:hover{color:var(--text)}
+    .cta{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:12px; font-weight:650; font-size:14px;
+      border:1px solid rgba(124,255,178,.35);
+      background: rgba(124,255,178,.12);
+      color:var(--text);
+    }
+    .cta:hover{background: rgba(124,255,178,.18)}
+    .ghost{
+      padding:10px 14px; border-radius:12px; font-weight:650; font-size:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+    }
+    .ghost:hover{background: rgba(255,255,255,.06)}
+
+    .section{padding:74px 0}
+    .hero{padding:72px 0 40px}
+    .grid{
+      display:grid; gap:18px;
+      grid-template-columns: 1.2fr .8fr;
+      align-items:stretch;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns: 1fr}
+    }
+    .card{
+      background: rgba(15,22,36,.80);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero-card{padding:26px}
+    h1{margin:0 0 12px; font-size:42px; letter-spacing:-.6px; line-height:1.15}
+    @media (max-width: 520px){ h1{font-size:34px} }
+    .sub{color:var(--muted); font-size:16px; margin:0 0 22px}
+    .pill-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 0}
+    .pill{
+      font-size:12px; color:var(--muted);
+      border:1px solid var(--line);
+      padding:6px 10px; border-radius:999px;
+      background: rgba(255,255,255,.03);
+    }
+    .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+    .media{
+      padding:14px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .media-box{
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      min-height: 290px;
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+    }
+    video{width:100%; height:100%; display:block; object-fit:cover}
+    .media-overlay{
+      position:absolute; left:14px; bottom:14px;
+      padding:10px 12px; border-radius:14px;
+      background: rgba(11,15,23,.60);
+      border:1px solid var(--line);
+      color: var(--text);
+      font-size:13px;
+    }
+    .kpi{
+      display:grid; grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+    }
+    @media (max-width: 520px){ .kpi{grid-template-columns: 1fr} }
+    .kpi .mini{
+      padding:12px; border-radius:16px; border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+    }
+    .mini b{display:block; font-size:14px}
+    .mini span{display:block; font-size:12px; color:var(--muted); margin-top:4px}
+
+    h2{margin:0 0 10px; font-size:26px; letter-spacing:-.3px}
+    .lead{color:var(--muted); margin:0 0 18px}
+    .cols{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    @media (max-width: 920px){ .cols{grid-template-columns: 1fr} }
+    .tile{padding:16px; border-radius:18px; border:1px solid var(--line); background: rgba(255,255,255,.03)}
+    .tile h3{margin:0 0 6px; font-size:15px}
+    .tile p{margin:0; color:var(--muted); font-size:14px}
+
+    .list{
+      display:grid; grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 920px){ .list{grid-template-columns: 1fr} }
+    .box{padding:18px; border-radius:18px; border:1px solid var(--line); background: rgba(255,255,255,.03)}
+    .box h3{margin:0 0 8px; font-size:16px}
+    .box ul{margin:0; padding-left:18px; color:var(--muted)}
+    .box li{margin:8px 0}
+
+    .steps{display:grid; grid-template-columns: repeat(5, 1fr); gap:10px}
+    @media (max-width: 920px){ .steps{grid-template-columns: 1fr} }
+    .step{
+      padding:14px; border-radius:18px; border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      min-height: 88px;
+    }
+    .step .n{
+      font-size:12px; color: rgba(124,255,178,.85);
+      font-weight:750; letter-spacing:.3px;
+    }
+    .step b{display:block; margin-top:6px; font-size:14px}
+    .step span{display:block; margin-top:6px; color:var(--muted); font-size:12px}
+
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid var(--line);
+    }
+    .table th, .table td{
+      padding:12px 12px;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      font-size:14px;
+    }
+    .table th{
+      text-align:left;
+      color: var(--text);
+      background: rgba(255,255,255,.04);
+      width: 200px;
+    }
+    .table td{color: var(--muted); background: rgba(255,255,255,.02)}
+    .table tr:last-child th, .table tr:last-child td{border-bottom:none}
+
+    .updates{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+    }
+    @media (max-width: 920px){ .updates{grid-template-columns: 1fr} }
+    .post{
+      padding:16px; border-radius:18px; border:1px solid var(--line);
+      background: rgba(255,255,255,.03);
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .post .tag{font-size:12px; color:rgba(124,255,178,.85)}
+    .post b{font-size:15px}
+    .post span{font-size:13px; color:var(--muted)}
+    .post a{margin-top:auto; color:var(--text); opacity:.92}
+    .post a:hover{opacity:1}
+
+    .contact{
+      display:grid; grid-template-columns: 1fr 1fr; gap:14px;
+    }
+    @media (max-width: 920px){ .contact{grid-template-columns: 1fr} }
+    form{display:flex; flex-direction:column; gap:10px}
+    input, textarea{
+      width:100%;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.02);
+      color:var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    textarea{min-height:120px; resize:vertical}
+    .note{color:var(--muted); font-size:13px; margin-top:10px}
+    .footer{
+      padding:28px 0 40px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .foot-row{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .foot-row a{color:var(--muted)}
+    .foot-row a:hover{color:var(--text)}
+    .badge{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      border:1px solid var(--line); background: rgba(255,255,255,.03);
+      color:var(--muted); font-size:12px;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top" aria-label="KHE Home">
+        <span class="logo" aria-hidden="true"></span>
+        <span>KHE Humanoid</span>
+      </a>
+
+      <nav class="menu" aria-label="Primary">
+        <a href="#solutions">Solutions</a>
+        <a href="#platform">Platform</a>
+        <a href="#poc">PoC Program</a>
+        <a href="#updates">Updates</a>
+        <a href="#contact">Contact</a>
+        <a class="cta" href="#contact">Request a PoC</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap grid">
+        <div class="card hero-card">
+          <h1>Humanoid robotics for manufacturing deployment</h1>
+          <p class="sub">
+            Vision-driven task understanding and adaptive motion control—bridging PoC to production rollout.
+          </p>
+
+          <div class="btn-row">
+            <a class="cta" href="#contact">Request a PoC</a>
+            <a class="ghost" href="#poc">See PoC scope</a>
+            <a class="ghost" href="#platform">Technical overview</a>
+          </div>
+
+          <div class="pill-row" aria-label="Highlights">
+            <span class="pill">Vision-based process recognition</span>
+            <span class="pill">Adaptive motion control</span>
+            <span class="pill">Simulation-first validation</span>
+            <span class="pill">Shop-floor integration</span>
+          </div>
+
+          <div style="margin-top:18px" class="kpi" aria-label="Value points">
+            <div class="mini">
+              <b>Start small</b>
+              <span>Validate one process first, then scale.</span>
+            </div>
+            <div class="mini">
+              <b>Measure KPIs</b>
+              <span>Success rate, cycle time, safety events.</span>
+            </div>
+            <div class="mini">
+              <b>Deploy-ready</b>
+              <span>Integration plan + monitoring loop.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card media">
+          <div class="media-box">
+            <!-- 옵션 A: 영상(권장) -->
+            <!-- assets/hero.webm 또는 hero.mp4를 넣으면 자동 재생됩니다 -->
+            <video autoplay muted loop playsinline poster="assets/hero-poster.jpg">
+              <source src="assets/hero.webm" type="video/webm" />
+              <source src="assets/hero.mp4" type="video/mp4" />
+            </video>
+
+            <!-- 영상이 아직 없으면 위 video 태그를 지우고 아래 문구만 남겨도 됩니다 -->
+            <div class="media-overlay">
+              Replace with a 8–15s demo loop (WebM preferred)
+            </div>
+          </div>
+
+          <div class="badge" title="Free stack">
+            Free stack: GitHub Pages · Static HTML · No build
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section">
+      <div class="wrap">
+        <h2>Why humanoids for factories</h2>
+        <p class="lead">
+          Even highly automated lines retain labor-intensive gaps. KHE targets variability, skilled-operator dependency, and safety/quality risks with a perception-to-policy pipeline.
+        </p>
+
+        <div class="list">
+          <div class="box">
+            <h3>Typical bottlenecks</h3>
+            <ul>
+              <li>SKU/process changes that break fixed automation</li>
+              <li>Manual steps requiring judgment and adaptation</li>
+              <li>Quality rework from missed exceptions</li>
+              <li>Safety constraints that reduce throughput</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>What we improve</h3>
+            <ul>
+              <li>Higher stability under real-world variation</li>
+              <li>Reduced reliance on individual craftsmanship</li>
+              <li>Measured KPIs tied to process outcomes</li>
+              <li>Deployment pathway from PoC to rollout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTIONS -->
+    <section id="solutions" class="section">
+      <div class="wrap">
+        <h2>Solutions</h2>
+        <p class="lead">Use-case driven PoCs with measurable KPIs and a clear integration plan.</p>
+
+        <div class="cols">
+          <div class="tile">
+            <h3>Bin Picking & Kitting</h3>
+            <p>Vision-based picking, sorting, and kit preparation under variation.</p>
+          </div>
+          <div class="tile">
+            <h3>Assembly Assist</h3>
+            <p>Screw/insert/press assists with exception detection and recovery.</p>
+          </div>
+          <div class="tile">
+            <h3>Visual Inspection</h3>
+            <p>Defect detection, classification, and downstream routing.</p>
+          </div>
+          <div class="tile">
+            <h3>Palletizing / Depalletizing</h3>
+            <p>Mixed loads handling with process-aware motion planning.</p>
+          </div>
+          <div class="tile">
+            <h3>Material Handling</h3>
+            <p>Transfer, buffering, and line-side delivery with safety constraints.</p>
+          </div>
+          <div class="tile">
+            <h3>Process Monitoring</h3>
+            <p>Perception layer that turns shop-floor reality into actionable data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PLATFORM -->
+    <section id="platform" class="section">
+      <div class="wrap">
+        <h2>Platform</h2>
+        <p class="lead">Perception → task understanding → adaptive motion → simulation-first validation → deployment monitoring.</p>
+
+        <div class="cols">
+          <div class="tile">
+            <h3>Perception</h3>
+            <p>Recognize parts, tools, jigs, and state changes from camera inputs.</p>
+          </div>
+          <div class="tile">
+            <h3>Task Understanding</h3>
+            <p>Classify process stages, detect exceptions, and trigger recovery.</p>
+          </div>
+          <div class="tile">
+            <h3>Adaptive Motion</h3>
+            <p>Constraint-aware control for paths, speed, and safety envelopes.</p>
+          </div>
+          <div class="tile">
+            <h3>Simulation</h3>
+            <p>Pre-validate collision, reachability, cycle time, and risk scenarios.</p>
+          </div>
+          <div class="tile">
+            <h3>Integration</h3>
+            <p>PLC/MES/WMS + safety sensors + robots/grippers + networks.</p>
+          </div>
+          <div class="tile">
+            <h3>Ops Loop</h3>
+            <p>Logs, replay, monitoring, and iterative improvement for rollout.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:18px" class="steps" aria-label="Workflow">
+          <div class="step"><div class="n">01</div><b>Define</b><span>Process + KPIs + safety constraints</span></div>
+          <div class="step"><div class="n">02</div><b>Collect</b><span>Video / timing / samples</span></div>
+          <div class="step"><div class="n">03</div><b>Simulate</b><span>Risk & cycle time validation</span></div>
+          <div class="step"><div class="n">04</div><b>Pilot</b><span>Test cell PoC & measurement</span></div>
+          <div class="step"><div class="n">05</div><b>Deploy</b><span>Integration + monitoring + scale</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- POC PROGRAM -->
+    <section id="poc" class="section">
+      <div class="wrap">
+        <h2>PoC Program</h2>
+        <p class="lead">
+          A structured pathway to validate one process quickly—then decide the next step with evidence.
+        </p>
+
+        <div class="card" style="padding:18px">
+          <table class="table" aria-label="PoC Overview">
+            <tr>
+              <th>Objective</th>
+              <td>Validate feasibility and performance range for a single process with measurable KPIs.</td>
+            </tr>
+            <tr>
+              <th>Typical duration</th>
+              <td>2–6 weeks (depends on process complexity and data readiness).</td>
+            </tr>
+            <tr>
+              <th>Customer provides</th>
+              <td>Process description, safety requirements, samples, access or recorded videos, and KPI agreement.</td>
+            </tr>
+            <tr>
+              <th>KHE delivers</th>
+              <td>PoC plan, demo scenario, performance report, integration proposal, and risk/requirements list.</td>
+            </tr>
+            <tr>
+              <th>Example KPIs</th>
+              <td>Success rate (%), cycle time (s), rework rate, safety events / stops.</td>
+            </tr>
+            <tr>
+              <th>Outputs</th>
+              <td>Demo video, test logs, improvement plan, and next-step roadmap for deployment.</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="height:14px"></div>
+
+        <div class="list">
+          <div class="box">
+            <h3>PoC scope levels (example)</h3>
+            <ul>
+              <li><b>PoC-Lite</b>: fit assessment + requirements + risk list</li>
+              <li><b>PoC-Standard</b>: test cell PoC + KPI measurement + integration outline</li>
+              <li><b>Pilot</b>: shop-floor integration + safety + operating procedures</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>Process selection checklist</h3>
+            <ul>
+              <li>Clear input/output definition and measurable KPI</li>
+              <li>Variation level that breaks fixed automation</li>
+              <li>Safety constraints well-defined (zones/sensors)</li>
+              <li>Data availability (videos, samples, timing)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPDATES -->
+    <section id="updates" class="section">
+      <div class="wrap">
+        <h2>Updates</h2>
+        <p class="lead">Short, consistent updates build credibility. Aim for at least one post per month.</p>
+
+        <div class="updates">
+          <div class="post">
+            <div class="tag">PoC Log</div>
+            <b>Demo loop: process recognition under variation</b>
+            <span>Replace with your first short write-up + video/GIF.</span>
+            <a href="#" aria-label="Read more">Read more →</a>
+          </div>
+          <div class="post">
+            <div class="tag">Tech Note</div>
+            <b>Simulation-first validation checklist</b>
+            <span>Collision, reachability, cycle time, safety scenarios.</span>
+            <a href="#" aria-label="Read more">Read more →</a>
+          </div>
+          <div class="post">
+            <div class="tag">Integration</div>
+            <b>PLC/MES interface: minimum viable signals</b>
+            <span>Define what you need to deploy, early.</span>
+            <a href="#" aria-label="Read more">Read more →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="wrap">
+        <h2>Contact</h2>
+        <p class="lead">
+          Share one process (task, safety, quality KPIs). We’ll respond with PoC fit and required inputs within 1–2 business days.
+        </p>
+
+        <div class="contact">
+          <div class="card" style="padding:18px">
+            <!-- 옵션 1) 완전 무료: mailto (전송 버튼 클릭 시 메일 앱 열림) -->
+            <!-- <a class="cta" href="mailto:contact@khehumanoid.com?subject=PoC%20Request&body=Company%3A%0AProcess%3A%0AKPIs%3A%0ASafety%3A%0ATimeline%3A%0A">Email us</a> -->
+
+            <!-- 옵션 2) Formspree(무료 플랜) 사용 시 action에 엔드포인트를 넣으면 실제 전송됨 -->
+            <form action="" method="POST">
+              <input name="name" placeholder="Name" autocomplete="name" />
+              <input name="company" placeholder="Company" autocomplete="organization" />
+              <input name="email" placeholder="Email" type="email" autocomplete="email" required />
+              <input name="process" placeholder="Target process (e.g., kitting / inspection / handling)" />
+              <textarea name="message" placeholder="Brief description: inputs/outputs, KPIs, safety constraints, timeline"></textarea>
+
+              <button class="cta" type="submit">Send inquiry</button>
+              <div class="note">
+                To enable free form delivery: use Formspree and set the form <code>action</code> URL.
+                If you prefer 100% no-service: use the mailto button (commented above).
+              </div>
+            </form>
+          </div>
+
+          <div class="card" style="padding:18px">
+            <h3 style="margin:0 0 8px">Quick info</h3>
+            <p class="lead" style="margin:0 0 12px">
+              Manufacturing-first humanoid deployment: perception, simulation, integration.
+            </p>
+
+            <div class="box">
+              <h3>What to include</h3>
+              <ul>
+                <li>Process name + step description</li>
+                <li>KPIs: success rate, cycle time, quality impact</li>
+                <li>Safety constraints: zones, sensors, interlocks</li>
+                <li>Preferred timeline for PoC kickoff</li>
+              </ul>
+            </div>
+
+            <div style="height:10px"></div>
+
+            <div class="box">
+              <h3>Links (optional)</h3>
+              <ul>
+                <li><a href="#" target="_blank" rel="noreferrer">Technical brief (PDF)</a></li>
+                <li><a href="#" target="_blank" rel="noreferrer">Demo video</a></li>
+                <li><a href="#" target="_blank" rel="noreferrer">GitHub</a></li>
+                <li><a href="#" target="_blank" rel="noreferrer">LinkedIn</a></li>
+              </ul>
+            </div>
+
+            <div class="note">
+              Tip: Add 1 short hero loop (8–15s) and 2 GIF demos. It instantly upgrades perceived maturity.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="wrap foot-row">
+        <div>© <span id="y"></span> KHE Humanoid. All rights reserved.</div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap">
+          <a href="#top">Top</a>
+          <a href="#solutions">Solutions</a>
+          <a href="#platform">Platform</a>
+          <a href="#poc">PoC</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // 폼을 "mailto"로 대체하고 싶으면 아래 주석을 해제하고 form action은 비워두세요.
+    // const form = document.querySelector('form');
+    // form.addEventListener('submit', (e) => {
+    //   e.preventDefault();
+    //   const data = new FormData(form);
+    //   const subject = encodeURIComponent('PoC Request');
+    //   const body = encodeURIComponent(
+    //     `Name: ${data.get('name')||''}\nCompany: ${data.get('company')||''}\nEmail: ${data.get('email')||''}\nProcess: ${data.get('process')||''}\n\n${data.get('message')||''}`
+    //   );
+    //   window.location.href = `mailto:contact@khehumanoid.com?subject=${subject}&body=${body}`;
+    // });
+  </script>
+</body>
+</html>
