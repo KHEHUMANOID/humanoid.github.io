@@ -25,34 +25,54 @@
 
   <style>
     :root{
-      --bg:#0b0f17;
-      --panel:#0f1624;
-      --muted:#9fb0c6;
-      --text:#e7eef9;
-      --line:rgba(231,238,249,.12);
-      --accent:#7CFFB2; /* 필요 시 브랜드 컬러로 조정 */
-      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      /* =========================
+         Plan B: Light Enterprise
+         ========================= */
+      --bg:#f6f8fc;            /* page background */
+      --panel:#ffffff;         /* main card background */
+      --panel2:#f1f5fb;        /* subtle fill */
+      --muted:#475569;         /* secondary text */
+      --text:#0f172a;          /* primary text */
+      --line:rgba(15,23,42,.10);
+      --accent:#2563eb;        /* primary blue */
+      --accent2:#22c55e;       /* optional green (not mandatory) */
+
+      --shadow: 0 18px 45px rgba(15,23,42,.10);
+      --shadow2: 0 8px 18px rgba(15,23,42,.08);
       --radius: 18px;
       --max: 1120px;
     }
+
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+
+      /* 밝고 은은한 기업용 백그라운드 */
       background:
-        radial-gradient(1200px 600px at 15% -10%, rgba(124,255,178,.14), transparent 55%),
-        radial-gradient(1000px 560px at 95% 5%, rgba(120,160,255,.10), transparent 52%),
-        radial-gradient(900px 520px at 60% 120%, rgba(255,160,120,.08), transparent 52%),
+        radial-gradient(1200px 650px at 15% -10%, rgba(37,99,235,.12), transparent 55%),
+        radial-gradient(1050px 600px at 95% 5%, rgba(34,197,94,.10), transparent 55%),
+        radial-gradient(900px 520px at 60% 120%, rgba(99,102,241,.08), transparent 55%),
         var(--bg);
+
       color:var(--text);
-      line-height:1.55;
+      line-height:1.65;
+      font-size:18px;
+      letter-spacing:-0.2px;
+      color-scheme: light;
     }
+
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:0 20px}
+
+    /* =========================
+       Nav
+       ========================= */
     .nav{
       position:sticky; top:0; z-index:50;
       backdrop-filter: blur(10px);
-      background: rgba(11,15,23,.70);
+      background: rgba(255,255,255,.78);
       border-bottom:1px solid var(--line);
     }
     .nav-inner{
@@ -61,33 +81,45 @@
       gap:14px;
     }
     .brand{
-      display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;
+      display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.2px;
+      color: var(--text);
     }
     .logo{
       width:34px; height:34px; border-radius:10px;
-      background: linear-gradient(145deg, rgba(124,255,178,.35), rgba(124,255,178,.10));
-      border:1px solid rgba(124,255,178,.35);
-      box-shadow: 0 10px 24px rgba(124,255,178,.10);
+      background:
+        radial-gradient(14px 14px at 30% 30%, rgba(34,197,94,.28), transparent 60%),
+        radial-gradient(16px 16px at 70% 70%, rgba(37,99,235,.22), transparent 60%),
+        linear-gradient(180deg, rgba(15,23,42,.06), rgba(15,23,42,.02));
+      border:1px solid rgba(15,23,42,.12);
+      box-shadow: 0 10px 24px rgba(15,23,42,.10);
     }
     .menu{display:flex; gap:18px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
-    .menu a{color:var(--muted); font-size:14px}
-    .menu a:hover{color:var(--text)}
+    .menu a{color:rgba(15,23,42,.72); font-size:14px; font-weight:650; padding:8px 10px; border-radius:10px}
+    .menu a:hover{color:var(--text); background: rgba(37,99,235,.08)}
+
+    /* Primary CTA */
     .cta{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:10px 14px; border-radius:12px; font-weight:650; font-size:14px;
-      border:1px solid rgba(124,255,178,.35);
-      background: rgba(124,255,178,.12);
-      color:var(--text);
+      padding:10px 14px; border-radius:12px; font-weight:750; font-size:14px;
+      border:1px solid rgba(37,99,235,.30);
+      background: rgba(37,99,235,.10);
+      color: var(--text);
     }
-    .cta:hover{background: rgba(124,255,178,.18)}
-    .ghost{
-      padding:10px 14px; border-radius:12px; font-weight:650; font-size:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      color:var(--text);
-    }
-    .ghost:hover{background: rgba(255,255,255,.06)}
+    .cta:hover{background: rgba(37,99,235,.14)}
 
+    /* Secondary / Ghost button */
+    .ghost{
+      padding:10px 14px; border-radius:12px; font-weight:750; font-size:14px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      color: var(--text);
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
+    }
+    .ghost:hover{background: rgba(255,255,255,.92)}
+
+    /* =========================
+       Layout
+       ========================= */
     .section{padding:74px 0}
     .hero{padding:72px 0 40px}
     .grid{
@@ -98,24 +130,37 @@
     @media (max-width: 920px){
       .grid{grid-template-columns: 1fr}
     }
+
+    /* =========================
+       Cards / Panels
+       ========================= */
     .card{
-      background: rgba(15,22,36,.80);
+      background: rgba(255,255,255,.82);
       border:1px solid var(--line);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow2);
     }
     .hero-card{padding:26px}
-    h1{margin:0 0 12px; font-size:42px; letter-spacing:-.6px; line-height:1.15}
+
+    h1{margin:0 0 12px; font-size:46px; letter-spacing:-.8px; line-height:1.08}
     @media (max-width: 520px){ h1{font-size:34px} }
-    .sub{color:var(--muted); font-size:16px; margin:0 0 22px}
+
+    .sub{color:var(--muted); font-size:18px; margin:0 0 22px}
+
     .pill-row{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0 0}
     .pill{
-      font-size:12px; color:var(--muted);
-      border:1px solid var(--line);
+      font-size:12px; color:#1e3a8a;
+      border:1px solid rgba(37,99,235,.18);
       padding:6px 10px; border-radius:999px;
-      background: rgba(255,255,255,.03);
+      background: rgba(37,99,235,.08);
+      font-weight:750;
     }
+
     .btn-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px}
+
+    /* =========================
+       Media
+       ========================= */
     .media{
       padding:14px;
       display:flex; flex-direction:column; gap:10px;
@@ -124,7 +169,7 @@
       border-radius: 16px;
       overflow:hidden;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: linear-gradient(180deg, rgba(37,99,235,.06), rgba(34,197,94,.05));
       min-height: 290px;
       display:flex; align-items:center; justify-content:center;
       position:relative;
@@ -133,11 +178,13 @@
     .media-overlay{
       position:absolute; left:14px; bottom:14px;
       padding:10px 12px; border-radius:14px;
-      background: rgba(11,15,23,.60);
+      background: rgba(255,255,255,.80);
       border:1px solid var(--line);
-      color: var(--text);
+      color: rgba(15,23,42,.82);
       font-size:13px;
+      box-shadow: 0 10px 22px rgba(15,23,42,.10);
     }
+
     .kpi{
       display:grid; grid-template-columns: repeat(3, 1fr);
       gap:10px;
@@ -145,16 +192,24 @@
     @media (max-width: 520px){ .kpi{grid-template-columns: 1fr} }
     .kpi .mini{
       padding:12px; border-radius:16px; border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(15,23,42,.02);
     }
     .mini b{display:block; font-size:14px}
     .mini span{display:block; font-size:12px; color:var(--muted); margin-top:4px}
 
-    h2{margin:0 0 10px; font-size:26px; letter-spacing:-.3px}
-    .lead{color:var(--muted); margin:0 0 18px}
+    /* =========================
+       Sections / Tiles / Boxes
+       ========================= */
+    h2{margin:0 0 10px; font-size:30px; letter-spacing:-.4px}
+    .lead{color:var(--muted); margin:0 0 18px; font-size:15px; font-weight:650}
+
     .cols{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
     @media (max-width: 920px){ .cols{grid-template-columns: 1fr} }
-    .tile{padding:16px; border-radius:18px; border:1px solid var(--line); background: rgba(255,255,255,.03)}
+    .tile{
+      padding:16px; border-radius:18px; border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
+    }
     .tile h3{margin:0 0 6px; font-size:15px}
     .tile p{margin:0; color:var(--muted); font-size:14px}
 
@@ -163,7 +218,11 @@
       gap:14px;
     }
     @media (max-width: 920px){ .list{grid-template-columns: 1fr} }
-    .box{padding:18px; border-radius:18px; border:1px solid var(--line); background: rgba(255,255,255,.03)}
+    .box{
+      padding:18px; border-radius:18px; border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
+    }
     .box h3{margin:0 0 8px; font-size:16px}
     .box ul{margin:0; padding-left:18px; color:var(--muted)}
     .box li{margin:8px 0}
@@ -172,16 +231,21 @@
     @media (max-width: 920px){ .steps{grid-template-columns: 1fr} }
     .step{
       padding:14px; border-radius:18px; border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(255,255,255,.70);
       min-height: 88px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
     }
     .step .n{
-      font-size:12px; color: rgba(124,255,178,.85);
-      font-weight:750; letter-spacing:.3px;
+      font-size:12px;
+      color: rgba(37,99,235,.85);
+      font-weight:850; letter-spacing:.3px;
     }
     .step b{display:block; margin-top:6px; font-size:14px}
     .step span{display:block; margin-top:6px; color:var(--muted); font-size:12px}
 
+    /* =========================
+       Table
+       ========================= */
     .table{
       width:100%;
       border-collapse:separate;
@@ -189,6 +253,7 @@
       overflow:hidden;
       border-radius:18px;
       border:1px solid var(--line);
+      background: rgba(255,255,255,.70);
     }
     .table th, .table td{
       padding:12px 12px;
@@ -199,82 +264,96 @@
     .table th{
       text-align:left;
       color: var(--text);
-      background: rgba(255,255,255,.04);
+      background: rgba(15,23,42,.03);
       width: 200px;
     }
-    .table td{color: var(--muted); background: rgba(255,255,255,.02)}
+    .table td{color: var(--muted); background: rgba(255,255,255,.55)}
     .table tr:last-child th, .table tr:last-child td{border-bottom:none}
 
+    /* =========================
+       Updates
+       ========================= */
     .updates{
       display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
     }
     @media (max-width: 920px){ .updates{grid-template-columns: 1fr} }
     .post{
       padding:16px; border-radius:18px; border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
+      background: rgba(255,255,255,.70);
       display:flex; flex-direction:column; gap:8px;
+      box-shadow: 0 8px 18px rgba(15,23,42,.06);
     }
-    .post .tag{font-size:12px; color:rgba(124,255,178,.85)}
+    .post .tag{font-size:12px; color: rgba(37,99,235,.85); font-weight:800}
     .post b{font-size:15px}
     .post span{font-size:13px; color:var(--muted)}
     .post a{margin-top:auto; color:var(--text); opacity:.92}
     .post a:hover{opacity:1}
 
+    /* =========================
+       Contact / Form
+       ========================= */
     .contact{
       display:grid; grid-template-columns: 1fr 1fr; gap:14px;
     }
     @media (max-width: 920px){ .contact{grid-template-columns: 1fr} }
     form{display:flex; flex-direction:column; gap:10px}
+
     input, textarea{
       width:100%;
       padding:12px 12px;
       border-radius:14px;
       border:1px solid var(--line);
-      background: rgba(255,255,255,.02);
+      background: rgba(255,255,255,.92);
       color:var(--text);
       outline:none;
       font-size:14px;
+      box-shadow: 0 6px 14px rgba(15,23,42,.04);
+    }
+    input:focus, textarea:focus{
+      border-color: rgba(37,99,235,.35);
+      box-shadow: 0 0 0 4px rgba(37,99,235,.12);
     }
     textarea{min-height:120px; resize:vertical}
+
     .note{color:var(--muted); font-size:13px; margin-top:10px}
-    .footer{
-      padding:28px 0 40px;
-      border-top:1px solid var(--line);
-      color:var(--muted);
-      font-size:13px;
-    }
-    .foot-row{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
-    .foot-row a{color:var(--muted)}
-    .foot-row a:hover{color:var(--text)}
+
+    /* badge */
     .badge{
       display:inline-flex; align-items:center; gap:8px;
       padding:8px 10px; border-radius:999px;
-      border:1px solid var(--line); background: rgba(255,255,255,.03);
-      color:var(--muted); font-size:12px;
-    }
-  </style>
-  <style>
-    :root {
-      --bg: #0e1117;
-      --panel: #161b22;
-      --text: #e6edf3;
-      --muted: #9da7b3;
-      --accent: #2f81f7;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      color: rgba(15,23,42,.72);
+      font-size:12px;
+      font-weight:750;
+      box-shadow: 0 6px 14px rgba(15,23,42,.06);
     }
 
-    body {
-      margin: 0;
-      font-family: "Inter", "Pretendard", "Apple SD Gothic Neo", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      font-size: 18px;
-      line-height: 1.7;
-      letter-spacing: -0.2px;
+    /* =========================
+       Footer
+       ========================= */
+    .footer{
+      padding:28px 0 40px;
+      border-top:1px solid var(--line);
+      color:rgba(15,23,42,.70);
+      font-size:13px;
+      background: rgba(255,255,255,.55);
     }
+    .foot-row{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .foot-row a{color:rgba(15,23,42,.72)}
+    .foot-row a:hover{color:var(--text); background: rgba(37,99,235,.08); border-radius:10px; padding:6px 8px}
 
-    h1 { font-size: 42px; font-weight: 700; }
-    h2 { font-size: 30px; font-weight: 600; }
-    p  { font-size: 18px; color: var(--muted); }
+    /* Mobile type tuning */
+    @media (max-width: 980px){
+      body{font-size:17px}
+      h1{font-size:40px}
+      h2{font-size:28px}
+      .sub{font-size:17px}
+    }
+    @media (max-width: 520px){
+      h1{font-size:34px}
+      .sub{font-size:16px}
+    }
   </style>
 </head>
 
@@ -632,7 +711,6 @@
           <a href="#platform">Platform</a>
           <a href="#poc">PoC</a>
           <a href="#contact">Contact</a>
-          <a href="/legacy/" style="font-size:12px;opacity:0.6">Legacy site</a>
         </div>
       </div>
     </footer>
